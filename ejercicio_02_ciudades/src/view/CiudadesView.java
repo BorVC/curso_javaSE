@@ -33,7 +33,7 @@ public class CiudadesView {
 				buscarPorPais();
 			break;
 			case 4:
-				System.out.println("Hata luego!!!!");
+				System.out.println("Hasta luego!!!!");
 			break;
 			default:
 				System.out.println("No existe la opción elegida. Elige una de las oopciones del menú");
@@ -68,17 +68,18 @@ public class CiudadesView {
 		Ciudades ciudad = new Ciudades(nombre,habitantes,pais);
 		//Llamada a la función de la clase CiudadesService
 		if(!service.nuevaCiudad(ciudad)){
-			System.out.println("Hecho!!!Ciudad guardada correctamente");
+			System.out.println("Hecho!!! Ciudad guardada correctamente");
 		}
 		else {
-			System.out.println("Error!!!.La ciudad introducida ya corresponde a un país");
+			System.out.println("Error!!! La ciudad introducida ya corresponde a un país");
 		}
 	}
 	
 	//2- Ciudad más poblada
 	static void ciudadMayorPoblacion() {
 		//Llamada a la función de la clase CiudadesService genera objeto Ciudades
-		System.out.println(service.masPoblada().getNombre());
+		System.out.println("Ciudad más poblada: " + service.masPoblada().getNombre() + 
+				"\nPoblación: " + service.masPoblada().getHabitantes() + " habitantes");
 	}
 	
 	//3- Buscar país
@@ -87,12 +88,21 @@ public class CiudadesView {
 		Scanner scn = new Scanner(System.in);
 		System.out.println("Introduce el país del que quieres conocer sus ciudades:");
 		String pais = scn.nextLine();
-		//Iterar Array que devuelve llamada al método de la clase CiudadesService
-		for(Ciudades ciudad : service.ciudadesPorPais(pais)) {
-			System.out.println("Ciudad: "+ ciudad.getNombre());
-			System.out.println("-------------");
+		if(service.ciudadesPorPais(pais).size() == 0 || service.ciudadesPorPais(pais).size() > 1) {
+			System.out.println(service.ciudadesPorPais(pais).size() + " CIUDADES ENCONTRADAS");
+		}else {
+			System.out.println(service.ciudadesPorPais(pais).size() + " CIUDAD ENCONTRADA");
 		}
-		System.out.println(service.ciudadesPorPais(pais).size());
+		if(service.ciudadesPorPais(pais).size() != 0) {
+			//Iterar Array que devuelve llamada al método de la clase CiudadesService
+			for(Ciudades ciudad : service.ciudadesPorPais(pais)) {
+				System.out.println("Ciudad: "+ ciudad.getNombre());
+				System.out.println("Población: " + ciudad.getHabitantes());
+				System.out.println("-------------");
+			}
+		}else {
+		   System.out.println("ERROR!!! El país indicado no se encuentra registrado.");
+		}
 	}
 
 }

@@ -25,11 +25,13 @@ public class CiudadesService {
 	//2-Mostrar todos los datos de ciudad más poblada.Devuelve objet Ciudades con la info
 	public Ciudades masPoblada() {
 		//Objeto guarda la ciudad con mayor población
-		Ciudades ciudadMasHabiatantes = null;
+		Ciudades ciudadMasHabiatantes = new Ciudades();
 		//Iterar por el HashsSet comparando la pobación de las ciudades que guarda
 		for(Ciudades ciudad : ciudades) {
 			if(ciudad.getHabitantes() > ciudadMasHabiatantes.getHabitantes()) {
-				//ciudadMasHabiatantes.setHabitantes(ciudad.getHabitantes());
+				ciudadMasHabiatantes.setHabitantes(ciudad.getHabitantes());
+				ciudadMasHabiatantes.setNombre(ciudad.getNombre());
+				ciudadMasHabiatantes.setPais(ciudad.getPais());
 				ciudadMasHabiatantes = ciudad;
 			}
 		}
