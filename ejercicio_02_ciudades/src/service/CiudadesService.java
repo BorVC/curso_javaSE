@@ -29,9 +29,9 @@ public class CiudadesService {
 		//Iterar por el HashsSet comparando la pobación de las ciudades que guarda
 		for(Ciudades ciudad : ciudades) {
 			if(ciudad.getHabitantes() > ciudadMasHabiatantes.getHabitantes()) {
-				ciudadMasHabiatantes.setHabitantes(ciudad.getHabitantes());
+				/*ciudadMasHabiatantes.setHabitantes(ciudad.getHabitantes());
 				ciudadMasHabiatantes.setNombre(ciudad.getNombre());
-				ciudadMasHabiatantes.setPais(ciudad.getPais());
+				ciudadMasHabiatantes.setPais(ciudad.getPais());*/
 				ciudadMasHabiatantes = ciudad;
 			}
 		}
