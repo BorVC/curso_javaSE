@@ -3,115 +3,55 @@ package service;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 
-import model.Pedidos;
+import model.Pedido;
 
 public class PedidosService {
-
-	/*Programa para manejar pedidos. Un pedido se caracteriza por producto,unidades,fechaPedido.
-Se presenta el siguiente menú:
-1.- Nuevo pedido
-2.- Pedido más reciente
-3.- Pedidos entre dos fechas
-4.- Pedido proximo a fecha
-4.- Salir
-
-2: Muestra los datos del pedido más reciente
-3: Se solicitan dos fechas, y se muestran los pedidos realizados
-4: Se solicita una fecha y nos muestra el pedido mas cercano a dicha fecha yyy
-en ese rango de fechas*/
-
-	//HashsSet
-	HashSet <Pedidos> pedidos= new HashSet <>();
-
-	public void  nuevoPedido(Pedidos pedido) {
-		//Añadir al HashSet pedidos el objeto pedido generado
+	HashSet<Pedido> pedidos=new HashSet<>();
+	
+	public void nuevoPedido(Pedido pedido) {
 		pedidos.add(pedido);
 	}
-
-	public Pedidos pedidoReciente() {//Devuelve el objeto Pedidos con toda su información
-		Pedidos pedidoAux = null;//Objeto Pedidos
-		LocalDate fechaMax = LocalDate.of(0,1,1);//1/1/1970//Inicializar al mas bajo
-		for(Pedidos pedido : pedidos) {//Recorrer HashSet
-			if(pedido.getFecha().isAfter(fechaMax)) {
-				//Actualizar la fecha y el pedido
-				fechaMax = pedido.getFecha();
-				pedidoAux = pedido;
+	
+	public Pedido pedidoMasReciente() {
+		Pedido pAux=null;
+		LocalDate fMax=LocalDate.of(0,1,1); //1/1/1970
+		for(Pedido p:pedidos) {
+			//si encontramos pedido con fecha más reciente que fMax
+			//actualizamos fMax y pAux
+			if(p.getFechaPedido().isAfter(fMax)) {
+				fMax=p.getFechaPedido();
+				pAux=p;
 			}
 		}
-
-		return pedidoAux;
-	}
-
-	public ArrayList<Pedidos> pedidosFechas(LocalDate fecha1, LocalDate fecha2) {//Devuelve un ArryList con los objetos Pedidos encontrados en la busqueda
-		ArrayList<Pedidos> pedidos = new ArrayList<>();//Guarda los pedidos encontrados entre el rango de fechas
-		for (Pedidos pedido: pedidos) {//Recorrer HashSet
-			//Si la fecha del pedido es >= a fecha1 y fecha del pedido es <= fecha2
-			if(pedido.getFecha().compareTo(fecha1) >= 0 && pedido.getFecha().compareTo(fecha2) <= 0){
-				pedidos.add(pedido);
-			}
-		}
-		return pedidos;//ArrayList
+		return pAux;
 	}
 	
-	public ArrayList<Pedidos> pedidosProximosFechas(LocalDate fecha1, LocalDate fecha2) {//Devuelve un ArryList con los objetos Pedidos encontrados en la busqueda
-		ArrayList<Pedidos> pedidos = new ArrayList<>();//Guarda los pedidos encontrados entre el rango de fechas
-		for (Pedidos pedido: pedidos) {//Recorrer HashSet
-			//Si la fecha del pedido es >= a fecha1 y fecha del pedido es <= fecha2
-			if(pedido.getFecha().compareTo(fecha1) >= 0 && pedido.getFecha().compareTo(fecha2) <= 0){
-				pedidos.add(pedido);
+	public ArrayList<Pedido> pedidosEntreFechas(LocalDate f1, LocalDate f2) {
+		ArrayList<Pedido> aux=new ArrayList<Pedido>();
+		for(Pedido p:pedidos) {
+			//si fecha del pedido es posterior o igual a f1 y anterior o igual a f2, se incluye
+			if(p.getFechaPedido().compareTo(f1)>=0&&p.getFechaPedido().compareTo(f2)<=0) {
+				aux.add(p);
 			}
 		}
-		return pedidos;//ArrayList
+		return aux;
 	}
 	
-	/*public Pedidos pedidoproximo(LocalDate fecha){
-	
-		Pedidos pedidoBuscado = null;
-		long dias = 0;
-		long dias2 = 0;
-		for(Pedidos pedido : pedidos) {
-			/*if(pedidoBuscado == null) {
-				//Calular dias d la fecha al pedido
-				dias = ChronoUnit.DAYS.between(fecha, pedido.getFecha());
-				pedidoBuscado = pedido;
-				if(dias < 0) {
-					dias = dias * -1;
-				}
+	public Pedido pedidoProximoFecha(LocalDate fecha) {
+		Pedido pAux=new Pedido();
+		pAux.setFechaPedido(LocalDate.of(1, 1, 1));
+		//comparamos la diferencia de días entre la fecha de cada pedido y la 
+		//parámetro, con la diferencia de días entre la fecha auxiliar y la parámetro
+		//si la del pedido es inferior, actualizamos la variable pedido auxiliar
+		for(Pedido p:pedidos) {
+			if(Math.abs(ChronoUnit.DAYS.between(p.getFechaPedido(), fecha))<
+					Math.abs(ChronoUnit.DAYS.between(pAux.getFechaPedido(), fecha))) {
+				pAux=p;
 			}
-			else {
-				dias2 = ChronoUnit.DAYS.between(fecha, pedido.getFecha());
-				pedidoBuscado = pedido;
-				if(dias2 < 0 ) {
-					dias = dias * -1;
-				}
-				if (dias2 < dias){
-					pedidoBuscado = pedido;
-					dias = dias2;
-				}
-			}
-			
 		}
-			
-	}*/
-			
-			public Pedidos pedidoProximoFecha(LocalDate fecha) {
-				Pedidos pAux=new Pedidos();
-				pAux.setFecha(LocalDate.of(1, 1, 1));
-				//comparamos la diferencia de días entre la fecha de cada pedido y la 
-				//parámetro, con la diferencia de días entre la fecha auxiliar y la parámetro
-				//si la del pedido es inferior, actualizamos la variable pedido auxiliar
-				for(Pedidos p:pedidos) {
-					if(Math.abs(ChronoUnit.DAYS.between(p.getFecha(), fecha))<
-							Math.abs(ChronoUnit.DAYS.between(pAux.getFecha(), fecha))) {
-						pAux=p;
-					}
-				}
-				return pAux;
-			}
-	
-	
-	
-	
+		return pAux;
+	}
 }
