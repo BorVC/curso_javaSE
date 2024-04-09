@@ -45,5 +45,18 @@ public class GuardarCursosFichero {
 		}
 
 	}
+	
+	//Mi solución
+	//Función buscar palabra en elementos array
+		static String buscar(String [] array,String palabra) {
+			//Variable guarda los cursos en los q e encuentre la palabra
+			StringBuilder cursos = new StringBuilder();
+			for(String curso : array) {
+				if(curso.contains(palabra)) {
+					cursos.append(curso + ",");
+				}
+			}
+			return cursos.toString();
+		}
 
 }
