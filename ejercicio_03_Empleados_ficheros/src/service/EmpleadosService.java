@@ -6,6 +6,9 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import model.Empleado;
@@ -14,7 +17,7 @@ import utilidades.Util;
 public class EmpleadosService {
 
 	//Fichero
-	String fichero = "empleados.tx";
+	String fichero = "empleados.txt";
 	
 	//Métodos
 	//Agregar nuevo empleado
@@ -34,8 +37,49 @@ public class EmpleadosService {
 		file.delete();
 	}
 	
+	//Eliminar empleado
+	public void eliminarEmpleado(int codigo) {
+		Path filePath = Paths.get(fichero);
+	    if (!Files.exists(filePath)) {
+	        try {
+	            Files.createFile(filePath);        
+	        } catch (IOException e) {
+	            System.err.println("Error al crear el archivo: " + e.getMessage());
+	        }
+	    }
+	    PrintStream out = null;
+		ArrayList<Empleado> empleados = new ArrayList<>();
+		try(FileReader fr = new FileReader(fichero);
+			BufferedReader br = new BufferedReader(fr)){
+			String linea;
+			while((linea = br.readLine()) != null) {
+				if(codigo != Util.convertirCadenaAObjeto(linea).getCodigo()) {
+					empleados.add(Util.convertirCadenaAObjeto(linea));
+				}
+			}
+			out = new PrintStream(fichero);
+			for(Empleado em : empleados) {
+				out.println(Util.convertirObjetoACadena(em));
+			}
+		}catch(IOException ex) {
+			ex.printStackTrace();
+		}finally {
+            if (out != null) {
+                out.close();
+            }
+		}
+	}
+	
 	//Buscar empleado
 	public Empleado buscarEmpleado(int codigo) {
+	    Path filePath = Paths.get(fichero);
+	    if (!Files.exists(filePath)) {
+	        try {
+	            Files.createFile(filePath);        
+	        } catch (IOException e) {
+	            System.err.println("Error al crear el archivo: " + e.getMessage());
+	        }
+	    }
 		Empleado emAux = new Empleado();
 		try(FileReader fr = new FileReader(fichero);
 		    BufferedReader bf = new BufferedReader(fr)){
@@ -55,6 +99,14 @@ public class EmpleadosService {
 	
 	//Mostrar todos los empleados
 	public ArrayList <Empleado> verTodosEmpleados(){
+		Path filePath = Paths.get(fichero);
+	    if (!Files.exists(filePath)) {
+	        try {
+	            Files.createFile(filePath);        
+	        } catch (IOException e) {
+	            System.err.println("Error al crear el archivo: " + e.getMessage());
+	        }
+	    }
 		ArrayList<Empleado> empleados = new ArrayList<Empleado>();
 		try(FileReader fr = new FileReader(fichero);
 			BufferedReader bf = new BufferedReader(fr)){
