@@ -9,7 +9,7 @@ public class PruebaEscrituraAppend {
 
 	public static void main(String[] args) {
 		//String ruta="c:\\temp\\dias.txt";
-		String ruta="dias.txt";
+		String ruta="dias1.txt";
 		
 		//clasica
 		/*FileOutputStream fos=null;

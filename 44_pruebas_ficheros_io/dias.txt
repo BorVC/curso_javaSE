@@ -1,9 +1,3 @@
-viernes
-sábado
 domingo
-lunes
-martes
-miércoles
-lunes
-martes
-miércoles
+juev
+domingo

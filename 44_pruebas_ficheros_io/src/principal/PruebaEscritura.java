@@ -10,9 +10,10 @@ public class PruebaEscritura {
 		String ruta="dias.txt";
 		try {
 			PrintStream out=new PrintStream(ruta);
-			out.println("viernes");
-			out.println("sábado");
+			out.println("Lunes");
 			out.println("domingo");
+			out.println("jueves");
+			
 			System.out.println("Información almacenada en el fichero");
 			out.close();
 		}
